@@ -133,8 +133,6 @@ export const userInfoSlice = createSlice({
         state.isAuthenticated = false;
         state.loginUserRequest = false;
         state.user = null;
-        deleteCookie('accessToken');
-        localStorage.removeItem('refreshToken');
       })
       .addCase(userLogOut.rejected, (state, action) => {
         state.isAuthenticated = false;
