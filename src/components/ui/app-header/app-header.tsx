@@ -7,73 +7,50 @@ import {
   Logo,
   ProfileIcon
 } from '@zlden/react-developer-burger-ui-components';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => {
-  const location = useLocation();
-  return (
-    <header className={styles.header}>
-      <nav className={`${styles.menu} p-4`}>
-        <div className={styles.menu_part_left}>
-          <NavLink
-            to='/'
-            className={({ isActive }) =>
-              `${styles.link} ${isActive || location.pathname.startsWith('/ingredients') ? styles.link_active : ''}`
-            }
-          >
-            <BurgerIcon
-              type={
-                location.pathname === '/' ||
-                location.pathname.startsWith('/ingredients')
-                  ? 'primary'
-                  : 'secondary'
-              }
-            />
-            <p className='text text_type_main-default ml-2 mr-10'>
-              Конструктор
-            </p>
-          </NavLink>
-          <>
-            <NavLink
-              to='/feed'
-              className={({ isActive }) =>
-                `${styles.link} ${isActive ? styles.link_active : ''}`
-              }
-            >
-              <ListIcon
-                type={
-                  location.pathname.startsWith('/feed')
-                    ? 'primary'
-                    : 'secondary'
-                }
-              />
-              <p className='text text_type_main-default ml-2'>Лента заказов</p>
-            </NavLink>
-          </>
-        </div>
-        <div className={styles.logo}>
-          <Logo className='' />
-        </div>
-        <div className={styles.link_position_last}>
-          <NavLink
-            to='/profile'
-            className={({ isActive }) =>
-              `${styles.link} ${isActive ? styles.link_active : ''}`
-            }
-          >
-            <ProfileIcon
-              type={
-                location.pathname.startsWith('/profile')
-                  ? 'primary'
-                  : 'secondary'
-              }
-            />
-            <p className='text text_type_main-default ml-2'>
-              {userName || 'Личный кабинет'}
-            </p>
-          </NavLink>
-        </div>
-      </nav>
-    </header>
-  );
-};
+import clsx from 'clsx';
+
+export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
+  <header className={styles.header}>
+    <nav className={`${styles.menu} p-4`}>
+      <div className={styles.menu_part_left}>
+        <NavLink to='/' className={clsx(styles.navlink, 'mr-4', 'p-4')}>
+          {({ isActive }) => (
+            <div className={clsx(styles.link, isActive && styles.link_active)}>
+              <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
+              <span className='text text_type_main-default ml-2'>
+                Конструктор
+              </span>
+            </div>
+          )}
+        </NavLink>
+        <NavLink to='/feed' className={clsx(styles.navlink, 'p-4')}>
+          {({ isActive }) => (
+            <div className={clsx(styles.link, isActive && styles.link_active)}>
+              <ListIcon type={isActive ? 'primary' : 'secondary'} />
+              <span className='text text_type_main-default ml-2'>
+                Лента заказов
+              </span>
+            </div>
+          )}
+        </NavLink>
+      </div>
+      <div className={styles.logo}>
+        <Logo className='' />
+      </div>
+      <div className={styles.link_position_last}>
+        <NavLink to='/profile' className={clsx(styles.navlink, 'p-4')}>
+          {({ isActive }) => (
+            <div className={clsx(styles.link, isActive && styles.link_active)}>
+              <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
+              <span className='text text_type_main-default ml-2'>
+                {userName || 'Личный кабинет'}
+              </span>
+            </div>
+          )}
+        </NavLink>
+      </div>
+    </nav>
+  </header>
+);

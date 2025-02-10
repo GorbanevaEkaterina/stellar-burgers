@@ -9,26 +9,20 @@ type ProtectedRouteProps = {
 };
 
 export const ProtectedRoute = ({
-  onlyUnAuth,
+  onlyUnAuth = false,
   children
 }: ProtectedRouteProps) => {
   const isAuthChecked = useSelector(getIsAuthChecked);
-  const user = useSelector(getUserInfo);
   const location = useLocation();
 
-  if (!isAuthChecked) {
-    return <Preloader />;
-  }
-
-  if (!onlyUnAuth && !user) {
+  if (!onlyUnAuth && !isAuthChecked) {
     return <Navigate replace to='/login' state={{ from: location }} />;
   }
 
-  if (onlyUnAuth && user) {
-    const from = location.state?.from || { pathname: '/' };
+  if (onlyUnAuth && isAuthChecked) {
+    const fromPage = location.state?.from || { pathname: '/' };
 
-    return <Navigate replace to={from} />;
+    return <Navigate replace to={fromPage} />;
   }
-
   return children;
 };

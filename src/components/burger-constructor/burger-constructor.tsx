@@ -29,7 +29,6 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!isAuthenticated) {
-      alert('Пожалуйста, войдите в систему, чтобы оформить заказ.');
       return navigate('/login');
     }
     if (!constructorItems.bun || orderRequest) return;

@@ -1,16 +1,16 @@
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
-import { TIngredient } from '@utils-types';
+import { TIngredient, TOrder } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../../src/services/store';
+import { getSelectedIngredients } from '../../slices/ingredientsSlice';
+import { getOrderByNumberApi } from '@api';
 import {
   getFeedLoading,
   getOrderByNum,
   getOrderByNumber
 } from '../../slices/feedSlice';
-import { getSelectedIngredients } from '../../slices/ingredientsSlice';
-
 export const OrderInfo: FC = () => {
   const ordernumber = Number(useParams().number);
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ export const OrderInfo: FC = () => {
   }, [dispatch]);
 
   const ingredients: TIngredient[] = useSelector(getSelectedIngredients);
+
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
@@ -65,7 +66,7 @@ export const OrderInfo: FC = () => {
     };
   }, [orderData, ingredients]);
 
-  if (!orderInfo) {
+  if (!orderInfo || loading) {
     return <Preloader />;
   }
 
