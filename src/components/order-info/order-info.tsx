@@ -20,7 +20,7 @@ export const OrderInfo: FC = () => {
 
   useEffect(() => {
     dispatch(getOrderByNumber(ordernumber));
-  }, [dispatch]);
+  }, [dispatch, ordernumber]);
 
   const ingredients: TIngredient[] = useSelector(getSelectedIngredients);
 
